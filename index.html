@@ -9,25 +9,101 @@
   <style>
     body {
       font-family: 'Space Grotesk', sans-serif;
-      background-color: #0f0f0f;
+      background-color: #0a0a0a; /* Um preto um pouco mais suave */
       color: #e5e5e5;
+      position: relative; /* Necessário para o efeito aurora */
+      overflow-x: hidden;
     }
+
+    /* Efeito de fundo "Aurora" */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 20%, rgba(0, 245, 160, 0.1 ), transparent 30%),
+                  radial-gradient(circle at 80% 70%, rgba(0, 217, 245, 0.1), transparent 30%);
+      z-index: -1;
+      animation: aurora 20s infinite alternate;
+    }
+
+    @keyframes aurora {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
     .gradient-text {
       background: linear-gradient(90deg, #00f5a0, #00d9f5);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       font-family: 'Orbitron', sans-serif;
     }
+
+    /* Estilos para o vídeo de fundo */
+    .hero-section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    #bg-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -2;
+      transform: translateX(-50%) translateY(-50%);
+      object-fit: cover; /* Garante que o vídeo cubra toda a área */
+    }
+
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(15, 15, 15, 0.7); /* Overlay escuro para legibilidade */
+      z-index: -1;
+    }
+
+    /* Animação de fade-in para seções */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-in-section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body class="overflow-x-hidden">
-  <!-- Hero Section -->
-  <section class="min-h-screen flex items-center justify-center text-center px-4">
-    <div>
+
+  <!-- Hero Section com Vídeo de Fundo -->
+  <section class="hero-section min-h-screen flex items-center justify-center text-center px-4">
+    <div class="video-overlay"></div>
+    <video autoplay muted loop playsinline id="bg-video">
+      <!-- Use um vídeo seu. Recomendo um vídeo curto e otimizado. -->
+      <!-- Exemplo de placeholder, troque pelo seu arquivo de vídeo -->
+      <source src="background-video.mp4" type="video/mp4">
+      Seu navegador não suporta vídeos em HTML5.
+    </video>
+    
+    <div class="z-10">
       <h1 class="text-4xl md:text-6xl font-bold gradient-text mb-6 animate-pulse">
         A próxima geração da inteligência
       </h1>
-      <p class="text-lg md:text-xl mb-8 text-gray-400">Transforme sua operação com IA e automações sob medida.</p>
+      <p class="text-lg md:text-xl mb-8 text-gray-300 max-w-2xl mx-auto">Transforme sua operação com IA e automações sob medida, projetadas para o futuro.</p>
 
       <!-- Botão WhatsApp -->
       <a
@@ -42,88 +118,73 @@
   </section>
 
   <!-- Sobre Section -->
-  <section id="sobre" class="py-20 px-6 md:px-20 grid md:grid-cols-2 gap-10 items-center">
+  <section id="sobre" class="py-20 px-6 md:px-20 grid md:grid-cols-2 gap-12 items-center fade-in-section">
     <div>
       <h2 class="text-3xl font-semibold mb-4">Atendimento inteligente. 100% automatizado.</h2>
-      <p class="text-gray-400 mb-4">Agenda, confirmações, respostas a clientes e até lembretes de pagamento. Tudo feito por uma IA que nunca esquece e aprende com você.</p>
-      <ul class="list-disc list-inside text-green-400">
-        <li>Atendimento 24h por WhatsApp</li>
-        <li>Agenda automática com integração</li>
-        <li>Fluxos personalizados por segmento</li>
+      <p class="text-gray-400 mb-6">Agenda, confirmações, respostas a clientes e até lembretes de pagamento. Tudo feito por uma IA que nunca esquece e aprende com você.</p>
+      <ul class="space-y-2">
+        <li class="flex items-center"><span class="text-green-400 mr-3">✓</span> Atendimento 24h por WhatsApp</li>
+        <li class="flex items-center"><span class="text-green-400 mr-3">✓</span> Agenda automática com integração</li>
+        <li class="flex items-center"><span class="text-green-400 mr-3">✓</span> Fluxos personalizados por segmento</li>
       </ul>
     </div>
-    <div class="bg-gray-800 p-6 rounded-xl shadow-lg flex justify-center items-center">
+    <div class="bg-gray-800/50 p-6 rounded-xl shadow-lg flex justify-center items-center backdrop-blur-sm">
       <img src="./Imagens/Imagem secretaria.jpg" alt="Secretária IA" class="rounded-2xl shadow-2xl w-full max-w-md transform hover:scale-105 transition duration-300" />
     </div>
   </section>
 
   <!-- Fluxo de Atendimento -->
-  <section class="bg-gray-900 py-20 px-6 md:px-20">
-    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 gradient-text tracking-wider">🚀 Fluxo Neural da Secretária IA</h2>
-    <div class="space-y-10 max-w-4xl mx-auto">
-      <div>
-        <h3 class="text-xl md:text-2xl font-semibold text-green-400 mb-2">🔹 Etapa 1 — Captura da Intenção</h3>
-        <p class="text-gray-400">O cliente inicia a conversa via WhatsApp com uma frase como:<br><span class="italic text-green-300">“Oi, gostaria de agendar um horário.”</span></p>
+  <section class="bg-black/20 py-20 px-6 md:px-20 fade-in-section">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 gradient-text tracking-wider">🚀 Fluxo Neural da Secretária IA</h2>
+    <div class="space-y-12 max-w-4xl mx-auto relative">
+      <!-- Linha do tempo vertical -->
+      <div class="absolute left-4 md:left-1/2 top-2 h-full w-0.5 bg-gray-700 -translate-x-1/2"></div>
+      
+      <div class="relative pl-10 md:pl-0">
+        <div class="md:flex md:justify-end md:pr-12">
+          <div class="md:w-5/12">
+            <h3 class="text-xl md:text-2xl font-semibold text-green-400 mb-2">🔹 Etapa 1 — Captura da Intenção</h3>
+            <p class="text-gray-400">O cliente inicia a conversa via WhatsApp com uma frase como:  
+<span class="italic text-green-300">“Oi, gostaria de agendar um horário.”</span></p>
+          </div>
+        </div>
       </div>
 
-      <div>
-        <h3 class="text-xl md:text-2xl font-semibold text-green-400 mb-2">🔹 Etapa 2 — Processamento de Linguagem Natural</h3>
-        <p class="text-gray-400">A IA interpreta a intenção da mensagem utilizando NLP (Natural Language Processing) para identificar: agendamento, dúvida, orçamento ou cancelamento.</p>
+      <div class="relative pl-10 md:pl-0">
+        <div class="md:flex md:justify-start md:pl-12">
+          <div class="md:w-5/12">
+            <h3 class="text-xl md:text-2xl font-semibold text-green-400 mb-2">🔹 Etapa 2 — Processamento de Linguagem Natural</h3>
+            <p class="text-gray-400">A IA interpreta a intenção da mensagem utilizando NLP para identificar a necessidade do cliente.</p>
+          </div>
+        </div>
       </div>
+      
+      <!-- Adicione as outras etapas aqui seguindo o padrão acima para um efeito de linha do tempo -->
 
-      <div>
-        <h3 class="text-xl md:text-2xl font-semibold text-green-400 mb-2">🔹 Etapa 3 — Execução Automatizada</h3>
-        <ul class="list-disc list-inside text-green-300">
-          <li>📅 <strong>Agendamento:</strong> Exibe slots disponíveis em tempo real.</li>
-          <li>💬 <strong>Dúvidas:</strong> Responde com base em base de conhecimento dinâmica.</li>
-          <li>💰 <strong>Orçamento:</strong> Calcula valores instantaneamente.</li>
-          <li>🔁 <strong>Reagendamento:</strong> Oferece novas datas e atualiza a agenda.</li>
-        </ul>
-      </div>
-
-      <div>
-        <h3 class="text-xl md:text-2xl font-semibold text-green-400 mb-2">🔹 Etapa 4 — Confirmação & Registro</h3>
-        <p class="text-gray-400">A IA confirma o horário, registra no sistema e dispara notificações integradas.</p>
-      </div>
-
-      <div>
-        <h3 class="text-xl md:text-2xl font-semibold text-green-400 mb-2">🔹 Etapa 5 — Follow-Up Automatizado</h3>
-        <p class="text-gray-400">A IA envia lembretes personalizados com opção de confirmação ou reagendamento imediato.</p>
-      </div>
-
-      <div>
-        <h3 class="text-xl md:text-2xl font-semibold text-green-400 mb-2">🔹 Etapa 6 — Coleta de Feedback Inteligente</h3>
-        <p class="text-gray-400">Logo após o atendimento, o cliente recebe:<br><span class="italic text-green-300">“De 0 a 10, como avalia nosso atendimento?”</span></p>
-      </div>
-
-      <div>
-        <h3 class="text-xl md:text-2xl font-semibold text-green-400 mb-2">🔹 Etapa 7 — Machine Learning em Ação</h3>
-        <p class="text-gray-400">Os dados coletados alimentam o motor de aprendizado da IA, otimizando a performance para futuros atendimentos.</p>
-      </div>
     </div>
   </section>
 
   <!-- Call to Action -->
-  <section class="py-20 text-center">
+  <section class="py-20 text-center fade-in-section">
     <h2 class="text-3xl font-semibold mb-6">Pronto para criar sua secretária IA?</h2>
     <a href="https://n8n.secretar.com.br/form/cd043dc4-45ec-47a2-8d31-ce31808a22f1" target="_blank" class="px-10 py-5 bg-green-400 text-black font-bold rounded-full hover:scale-105 transition shadow-xl">Criar minha secretária teste</a>
   </section>
 
   <!-- FAQ Section -->
-  <section class="py-20 px-6 md:px-20">
+  <section class="py-20 px-6 md:px-20 fade-in-section">
     <h2 class="text-3xl font-semibold text-center mb-12">Perguntas Frequentes</h2>
-    <div class="max-w-3xl mx-auto space-y-6">
-      <details class="bg-gray-800 p-4 rounded-lg">
-        <summary class="cursor-pointer font-semibold">Como a IA é personalizada para o meu negócio?</summary>
-        <p class="mt-2 text-gray-400">Mapeamos seus fluxos internos e treinamos a IA para se adaptar ao seu modo de operar.</p>
+    <div class="max-w-3xl mx-auto space-y-4">
+      <details class="bg-gray-800/50 backdrop-blur-sm p-4 rounded-lg border border-gray-700">
+        <summary class="cursor-pointer font-semibold text-lg hover:text-green-400 transition">Como a IA é personalizada para o meu negócio?</summary>
+        <p class="mt-3 text-gray-400">Mapeamos seus fluxos internos e treinamos a IA para se adaptar ao seu modo de operar, garantindo uma integração perfeita com sua marca e processos.</p>
       </details>
-      <details class="bg-gray-800 p-4 rounded-lg">
-        <summary class="cursor-pointer font-semibold">Preciso de equipe técnica para implantar?</summary>
-        <p class="mt-2 text-gray-400">Não. Nossa equipe cuida de tudo, e você só acompanha os resultados.</p>
+      <details class="bg-gray-800/50 backdrop-blur-sm p-4 rounded-lg border border-gray-700">
+        <summary class="cursor-pointer font-semibold text-lg hover:text-green-400 transition">Preciso de equipe técnica para implantar?</summary>
+        <p class="mt-3 text-gray-400">Não. Nossa equipe cuida de toda a configuração e implantação. Você só precisa acompanhar os resultados e ver sua eficiência aumentar.</p>
       </details>
-      <details class="bg-gray-800 p-4 rounded-lg">
-        <summary class="cursor-pointer font-semibold">Qual o tempo médio para começar a rodar?</summary>
-        <p class="mt-2 text-gray-400">Menos de 7 dias após o onboarding inicial.</p>
+      <details class="bg-gray-800/50 backdrop-blur-sm p-4 rounded-lg border border-gray-700">
+        <summary class="cursor-pointer font-semibold text-lg hover:text-green-400 transition">Qual o tempo médio para começar a rodar?</summary>
+        <p class="mt-3 text-gray-400">Em média, a automação básica pode estar operacional em menos de 7 dias após o onboarding inicial.</p>
       </details>
     </div>
   </section>
@@ -133,5 +194,28 @@
     <p>© 2025 NeuroTech. Todos os direitos reservados.</p>
     <p>Feito com ☕ por sua equipe de tecnologia.</p>
   </footer>
+
+  <script>
+    // Script para animar seções ao rolar a página
+    document.addEventListener('DOMContentLoaded', ( ) => {
+      const sections = document.querySelectorAll('.fade-in-section');
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+    });
+  </script>
+
 </body>
 </html>
